@@ -12,9 +12,9 @@ vim.opt.cursorline = true
 vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
 
 -- Vertical Line
-local opt = vim.opt
-opt.cursorline = true
-opt.cursorcolumn = true
+-- local opt = vim.opt
+-- opt.cursorline = true
+-- opt.cursorcolumn = true
 
-vim.api.nvim_command("highlight CursorLine guibg=#2D313B")
-vim.api.nvim_command("highlight CursorColumn guibg=#2D313B")
+-- vim.api.nvim_command("highlight CursorLine guibg=#2D313B")
+-- vim.api.nvim_command("highlight CursorColumn guibg=#2D313B")

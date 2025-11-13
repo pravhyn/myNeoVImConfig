@@ -1,0 +1,9 @@
+-- vim.keymap.set("n", "gf", function()
+--         local file = vim.fn.expand("<cfile>")
+--         if vim.fn.filereadable(file) == 1 then
+--                 vim.cmd("edit " .. file)
+--         else
+--                 vim.notify("File not found: creating " .. file, vim.log.levels.WARN)
+--                 vim.cmd("edit " .. file)
+--         end
+-- end, { desc = "Jump to file or create it" })

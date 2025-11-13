@@ -1,31 +1,29 @@
-return{
-  "obsidian-nvim/obsidian.nvim",
-  version = "*",
-  ft = "markdown",
-  cmd = { "Obsidian quickswitch", "Obsidian search" },
-  keys = {
-    { "<leader>co", "<cmd>Obsidian quick_switch<CR>", desc = "Obsidian Quick Switch" },
-    { "<leader>cs", "<cmd>Obsidian search<CR>", desc = "Obsidian Search" },
-  },
-  opts = {
-    workspaces = {
-      {
-        name = "personal",
-        path = "~/Projects/obsidianVaults/Wisdom",
-      },
-    },
-    legacy_commands = false,
-  },
-  config = function(_, opts)
-    require("obsidian").setup(opts)
-
-    -- Set conceallevel for markdown buffers
-    vim.api.nvim_create_autocmd("FileType", {
-      pattern = "markdown",
-      callback = function()
-        vim.opt_local.conceallevel = 2
-      end,
-      group = vim.api.nvim_create_augroup("ObsidianConceal", { clear = true }),
-    })
-  end,
-} 
+return {
+        {
+                "obsidian-nvim/obsidian.nvim",
+                version = "*",
+                ---@module 'obsidian'
+                ---@type obsidian.config
+                opts = {
+                        ui = {
+                                enable = true,
+                        },
+                        workspaces = {
+                                {
+                                        name = "development",
+                                        path = "~/Projects/obsidianVaults/Wisdom",
+                                },
+                        },
+                },
+        },
+        -- {
+        --
+        --         "MeanderingProgrammer/render-markdown.nvim",
+        --         dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-mini/mini.nvim" }, -- if you use the mini.nvim suite
+        --         -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.icons' }, -- if you use standalone mini plugins
+        --         -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
+        --         ---@module 'render-markdown'
+        --         ---@type render.md.UserConfig
+        --         opts = {},
+        -- },
+}

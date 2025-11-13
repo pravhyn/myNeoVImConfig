@@ -58,6 +58,9 @@ return {
 
 			enabled = true,
 
+		},
+		trouble =  {
+enabled = true
 		}
 	},
 }

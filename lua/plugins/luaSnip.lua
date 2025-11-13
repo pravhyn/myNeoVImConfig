@@ -11,6 +11,6 @@ return{
   config = function(_, opts)
     local luasnip = require("luasnip")
     luasnip.config.set_config(opts)
-    require("luasnip.loaders.from_vscode").load()
+    require("luasnip.loaders.from_vscode").lazy_load()
   end,
 } 
