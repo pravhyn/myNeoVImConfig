@@ -8,9 +8,6 @@ vim.g.maplocalleader = "," -- Local leader (e.g. <localleader>r for Grug-FAR)
 _G.is_termux = vim.fn.executable("termux-info") == 1 and vim.fn.getenv("PREFIX") == "/data/data/com.termux/files/usr"
 -- print("Termux detected:", is_termux)
 -- Load core configuration
-require("core.options")
-require("core.keymaps")
-require("core.autocmds")
 
 -- Load shit idk what even is
 -- Add your plugin path to runtime during dev
@@ -41,3 +38,15 @@ require("utils.stashPeek")
 -- For Termux
 require("termux.clipboardFix")
 -- To reload
+
+require("core.options")
+require("core.keymaps")
+require("core.autocmds")
+
+-- for node stuff
+require("node.quickfix")
+
+-- enhancers Lol
+require("core.enhancers")
+require("core.reports")
+require("core.diagnostics")
