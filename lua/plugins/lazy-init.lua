@@ -59,7 +59,6 @@ require("lazy").setup({
         { import = "plugins.webdevicons" },
         { import = "plugins.rosepinemoon" },
         { import = "plugins.toggleterm" },
-        { import = "plugins.cmp" },
 
         { import = "plugins.neotest" },
         -- { import = "plugins.lspSignature" },
@@ -101,6 +100,7 @@ require("lazy").setup({
         -- Mini plugins
         { import = "miniPlugins.mini-ai" },
         { import = "plugins.mini-files" },
+        { import = "plugins.cmp" },
 })
 
 -- color Scheme catppuccin

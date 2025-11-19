@@ -21,9 +21,12 @@ end, { desc = "Find Registers" })
 
 -- 🧠 Help Tags
 vim.keymap.set("n", "<leader>fh", function()
-        require("fzf-lua").help_tags()
-end, { desc = "Help Tags" })
+        require("snacks.picker").help()
+end, { desc = "Help" })
 
+vim.keymap.set("n", "<leader>cc", function()
+        require("snacks.picker").commands()
+end, { desc = "Commands" })
 -- Assuming snacks.nvim is already loaded and configured
 vim.keymap.set("n", "<Space><Space>", function()
         require("snacks.picker").smart()
@@ -42,7 +45,7 @@ vim.keymap.set("n", "<leader>lw", function()
 end, { desc = "Grep the selected word" })
 
 vim.keymap.set("n", "<leader>lb", function()
-        require("snacks.picker").grep_buffer()
+        require("snacks.picker").grep_buffers()
 end, { desc = "Grep from buffers" })
 
 vim.keymap.set("n", "<leader>ch", function()
@@ -58,5 +61,9 @@ vim.keymap.set("n", "<leader>sp", function()
 end)
 
 vim.keymap.set("n", "<leader>ff", function()
-        require("snacks").picker.files()
+        require("snacks.picker").files()
+end)
+
+vim.keymap.set("n", "<leader>fp", function()
+        require("snacks.picker")
 end)
