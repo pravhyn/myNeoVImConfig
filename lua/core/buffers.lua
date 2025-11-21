@@ -22,32 +22,25 @@ local function floatingBuffer(BuffersList)
                 border = "rounded",
         }
 
-        local winId = vim.api.nvim_open_win(bufId, false, config)
+        local winId = vim.api.nvim_open_win(bufId, true, config)
 
         vim.keymap.set("n", "q", function()
                 vim.api.nvim_win_close(winId, false)
         end, { buffer = bufId })
-
         vim.api.nvim_buf_attach(bufId, false, {
-                on_lines = function(_, _, _, firstLine, lastLine, newLastLine, byte_count)
-                        for i = firstLine, lastLine do
-                                local deletedLine = vim.fn.getline(i)
-                                local bufferId = tonumber(deletedLine:match("-%d+$"))
-                                print(
-                                        "firstLine is"
-                                                .. firstLine
-                                                .. "LastLine is "
-                                                .. lastLine
-                                                .. "bufferId is"
-                                                .. bufferId
-                                                .. "i is"
-                                                .. i
-                                )
-                                if bufferId and vim.api.nvim_buf_is_loaded(bufId) then
-                                        vim.api.nvim_buf_delete(bufId, {
-                                                force = true,
-                                        })
-                                end
+                on_lines = function(_, _, _, firstline, lastline)
+                        for i = firstline, lastline - 1 do
+                                local bufferItem = BuffersList[i + 1]
+                                table.remove(BuffersList, i)
+
+                                local bufferNumber = bufferItem:match("-(%d+)")
+                                -- print(i)
+                                -- print(bufferItem)
+                                -- print(bufferNumber)
+
+                                vim.schedule(function()
+                                        vim.api.nvim_buf_delete(tonumber(bufferNumber), { force = false })
+                                end)
                         end
                 end,
         })
