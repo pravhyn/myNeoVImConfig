@@ -10,7 +10,13 @@ vim.keymap.set("n", "<leader>run", function()
         -- high-precision start time
         local start = vim.uv.hrtime()
 
-        vim.system({ "python", file }, { text = true }, function(res)
+        -- Start the python process
+        local job
+        job = vim.system({ "python", file }, { text = true }, function(res)
+                if job._killed then
+                        return
+                end
+
                 -- calculate duration
                 local finish = vim.uv.hrtime()
                 local duration = (finish - start) / 1e9 -- convert ns → seconds
@@ -25,4 +31,12 @@ vim.keymap.set("n", "<leader>run", function()
                         title = "Python Output",
                 })
         end)
+
+        vim.defer_fn(function()
+                if job and job:is_active() then
+                        job._killed = true
+                        job:kill(15)
+                        require("snacks").notify("⛔ Python program killed (took > 10s)", "warn")
+                end
+        end, 10000)
 end, { desc = "Run Python file and notify output" })

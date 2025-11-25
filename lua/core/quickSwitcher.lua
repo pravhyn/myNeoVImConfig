@@ -3,15 +3,21 @@ local Popup = require("nui.popup")
 local Input = require("nui.input")
 local event = require("nui.utils.autocmd").event
 
+local current_buffer = vim.api.nvim_buf_get_name(0)
+local current_filename = vim.fn.fnamemodify(current_buffer, ":t")
+
 local function fuzzy_match_buffers(input)
         -- Improve this for uh pure buffer name match not the path itself
         local bufs = vim.api.nvim_list_bufs()
+        current_buffer = vim.api.nvim_buf_get_name(0)
         local name = input._value or ""
         local matches = {}
 
         for _, buf in ipairs(bufs) do
-                if vim.api.nvim_buf_is_loaded(buf) then
-                        local bufname = vim.api.nvim_buf_get_name(buf) or ""
+                if vim.api.nvim_buf_is_valid(buf) then
+                        local raw_bufname = vim.api.nvim_buf_get_name(buf) or ""
+                        local bufname = vim.fn.fnamemodify(raw_bufname, ":t") or ""
+
                         if bufname ~= "" and bufname:lower():match(name:lower()) then
                                 table.insert(matches, { id = buf, name = bufname })
                         end
@@ -24,10 +30,18 @@ end
 -- 🔥 MAIN FUNCTION
 local function open_buffer_switcher()
         -- everything must be local inside this function
-        local bottom_popup = Popup({ border = "double", enter = false })
+        local bottom_popup = Popup({
+                border = {
+                        style = "double",
+                        text = {
+                                top = current_buffer,
+                                top_align = "left",
+                        },
+                },
+                enter = false,
+        })
 
         local input -- forward declare so on_change can reference it
-
         input = Input({
                 position = "50%",
                 size = { width = 20 },
