@@ -18,6 +18,8 @@ return { -- Main LSP Configuration
 
                 local util = require("lspconfig.util")
 
+                local lspconfig = require("lspconfig")
+
                 local root_files = {
                         ".luarc.json",
                         ".luarc.jsonc",
@@ -31,17 +33,16 @@ return { -- Main LSP Configuration
 
                 local servers = {
                         lua_ls = {
-                                root_dir = function(fname)
-                                        local bufname = vim.api.nvim_buf_get_name(0)
-                                        local is_luapad = bufname:match("Luapad") or bufname:match("luapad.nvim")
-
-                                        if is_luapad then
-                                                -- Use buffer's directory as root to avoid scanning project
-                                                return nil
-                                        end
-
-                                        return util.find_git_ancestor(fname) or util.path.dirname(fname)
-                                end,
+                                root_markers = {
+                                        ".luarc.json",
+                                        ".luarc.jsonc",
+                                        ".luacheckrc",
+                                        ".stylua.toml",
+                                        ".git",
+                                        "stylua.toml",
+                                        "selene.toml",
+                                        "selene.yml",
+                                },
                                 on_attach = function(client, bufnr)
                                         local bufname = vim.api.nvim_buf_get_name(bufnr)
                                         if bufname:match("Luapad") or bufname:match("luapad.nvim") then
@@ -60,12 +61,16 @@ return { -- Main LSP Configuration
                                 cmd = { "lua-language-server" },
 
                                 settings = {
-                                        lua = {
+                                        Lua = {
                                                 runtime = {
                                                         version = "LuaJit",
                                                 },
                                                 diagnostics = {
                                                         globals = { "vim" },
+                                                },
+                                                workspace = {
+                                                        checkThirdParty = false,
+                                                        ignoreDir = { vim.fn.stdpath("data") .. "/lazy" },
                                                 },
                                         },
                                 },
@@ -75,17 +80,57 @@ return { -- Main LSP Configuration
                         -- jsonls = {},
                 }
 
-                -- for server, config in pairs(servers) do
-                -- 	vim.lsp.config(server, config)
-                -- 	vim.lsp.enable(server)
-                -- end
+                for server, config in pairs(servers) do
+                        vim.lsp.config(server, config)
+                        -- vim.lsp.enable(server)
+                end
                 require("mason-lspconfig").setup({
                         ensure_installed = { "lua_ls" },
                 })
+
+                -- actually apply configs
+                -- for server, config in pairs(servers) do
+                --         lspconfig[server].setup(config)
+                -- end
+
                 require("mason-tool-installer").setup({
                         ensure_installed = {
                                 "stylua", -- this installs the CLI formatter
                         },
                 })
+
+                -- Define a custom command
+                vim.api.nvim_create_user_command("LuaRoot", function(opts)
+                        local fname = vim.api.nvim_buf_get_name(0)
+                        local current_root = vim.lsp.get_clients({ name = "lua_ls" })[1]
+                                and vim.lsp.get_clients({ name = "lua_ls" })[1].config.root_dir
+
+                        -- Prompt the user to pick a root
+                        vim.ui.select({
+                                util.path.dirname(fname), -- just the file’s folder
+                                current_root, -- whatever lua_ls currently thinks
+                                vim.fn.getcwd(), -- your current working dir
+                        }, { prompt = "Pick root for lua_ls:" }, function(choice)
+                                if choice then
+                                        -- Stop existing client
+                                        for _, client in ipairs(vim.lsp.get_clients({ name = "lua_ls" })) do
+                                                client:stop()
+                                        end
+                                        -- Re‑enable with new root
+                                        vim.lsp.config("lua_ls", {
+                                                root_dir = choice,
+                                                settings = {
+                                                        Lua = {
+                                                                runtime = { version = "LuaJit" },
+                                                                diagnostics = { globals = { "vim" } },
+                                                                workspace = { checkThirdParty = false },
+                                                        },
+                                                },
+                                        })
+                                        vim.lsp.enable("lua_ls")
+                                        vim.notify("lua_ls reattached with root: " .. choice, vim.log.levels.INFO)
+                                end
+                        end)
+                end, { nargs = 0 })
         end,
 }

@@ -15,7 +15,7 @@ vim.keymap.set("n", "<leader>fr", function()
 end, { desc = "Find Recent Files" })
 
 -- 📋 Find Registers
-vim.keymap.set("n", "<leader>rr", function()
+vim.keymap.set("n", "<leader>rg", function()
         require("fzf-lua").registers()
 end, { desc = "Find Registers" })
 

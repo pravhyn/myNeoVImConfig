@@ -29,12 +29,18 @@ end
 
 -- 🔥 MAIN FUNCTION
 local function open_buffer_switcher()
-        -- everything must be local inside this function
+        -- everything must be local inside this
+        current_buffer = vim.api.nvim_buf_get_name(0)
+        current_filename = vim.fn.fnamemodify(current_buffer, ":t")
+
+        if current_filename == "" then
+                current_filename = "No fileName"
+        end
         local bottom_popup = Popup({
                 border = {
                         style = "double",
                         text = {
-                                top = current_buffer,
+                                top = current_filename,
                                 top_align = "left",
                         },
                 },
@@ -76,7 +82,8 @@ local function open_buffer_switcher()
                         if #matches == 1 then
                                 vim.schedule(function()
                                         input:unmount()
-                                        vim.api.nvim_set_current_buf(matches[1].id)
+                                        local win = vim.api.nvim_get_current_win()
+                                        vim.api.nvim_win_set_buf(win, matches[1].id)
                                 end)
                         end
                 end,

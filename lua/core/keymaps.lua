@@ -112,6 +112,7 @@ vim.keymap.set("v", "<leader>xr", function()
         local cmd = table.concat(vim.fn.getline("'<", "'>"), "\n")
         vim.cmd(cmd)
 end, { desc = "Execute selected text as command" })
+
 -- Lua
 -- vim.keymap.set("n", "x", require("substitute").operator, { noremap = true }) -- like yi{ then xi{
 -- vim.keymap.set("n", "xl", require("substitute").line, { noremap = true }) -- after yanking line, then xl
