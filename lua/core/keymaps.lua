@@ -12,12 +12,6 @@ vim.keymap.set("n", "<leader>lss", ":!live-server .<CR>", { desc = "Start live-s
 -- LSP
 vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "LSP Rename" })
 
--- Custom Testing
-vim.keymap.set("v", "<leader>jt", function()
-        local file = vim.fn.tempname() .. ".ts"
-        vim.cmd("'<,'>w! " .. file)
-        vim.cmd("!ts-node " .. file)
-end, { desc = "Run selected TypeScript code" })
 -- Noetest keymaps
 local neotest = require("neotest")
 
@@ -40,7 +34,11 @@ end)
 vim.keymap.set("n", "<leader>tl", function()
         neotest.run.run_last() -- rerun last test
 end)
-
+-- To delete buffers
+-- Safe close current buffer
+vim.keymap.set("n", "<leader>qq", function()
+        require("snacks").bufdelete()
+end)
 -- toggleTerm
 -- ToggleTerm Send-to-Terminal Keymaps
 local trim_spaces = true
