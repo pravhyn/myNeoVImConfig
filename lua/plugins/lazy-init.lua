@@ -82,6 +82,7 @@ require("lazy").setup({
         -- Navigations
         { import = "plugins.before" },
         { import = "plugins.flash" },
+        { import = "plugins.gitsigns" },
         { import = "plugins.import" },
         { import = "plugins.precognition" },
         -- { import = "plugins.helpers_plugin"}

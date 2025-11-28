@@ -39,20 +39,54 @@ return { -- Main LSP Configuration
                                         ".luacheckrc",
                                         ".stylua.toml",
                                         ".git",
+                                        ".github",
                                         "stylua.toml",
                                         "selene.toml",
                                         "selene.yml",
                                 },
                                 on_attach = function(client, bufnr)
                                         local bufname = vim.api.nvim_buf_get_name(bufnr)
-                                        if bufname:match("Luapad") or bufname:match("luapad.nvim") then
-                                                vim.schedule(function()
-                                                        client.stop()
-                                                        vim.notify(
-                                                                "Detached lua_ls from Luapad buffer",
-                                                                vim.log.levels.INFO
-                                                        )
-                                                end)
+                                        -- if bufname:match("Luapad") or bufname:match("luapad.nvim") then
+                                        --         vim.schedule(function()
+                                        --                 client.stop()
+                                        --                 vim.notify(
+                                        --                         "Detached lua_ls from Luapad buffer",
+                                        --                         vim.log.levels.INFO
+                                        --                 )
+                                        --         end)
+                                        --         return
+                                        -- end
+
+                                        local lazy_root = vim.fn.stdpath("data") .. "/lazy"
+                                        if bufname:find(lazy_root, 1, true) then
+                                                -- Derive Plugin folder as root
+                                                local plugin_root = vim.fs.dirname(bufname:sub(#lazy_root + 2))
+                                                plugin_root = lazy_root .. "/" .. plugin_root:match("^[^/]+")
+
+                                                client.stop()
+
+                                                -- Re‑enable lua_ls with plugin_root as root_dir
+                                                vim.lsp.config("lua_ls", {
+                                                        root_dir = plugin_root,
+                                                        settings = {
+                                                                Lua = {
+                                                                        runtime = { version = "LuaJit" },
+                                                                        diagnostics = { globals = { "vim" } },
+                                                                        type = {
+                                                                                checkTableShape = true,
+                                                                        },
+                                                                        workspace = { checkThirdParty = false },
+                                                                },
+                                                        },
+                                                })
+                                                vim.lsp.enable("lua_ls")
+
+                                                -- Change cwd for convenience
+                                                vim.cmd("cd " .. plugin_root)
+                                                vim.notify(
+                                                        "lua_ls reattached with root: " .. plugin_root,
+                                                        vim.log.levels.INFO
+                                                )
                                                 return
                                         end
                                         -- Normal attach logic here (if needed)
@@ -107,7 +141,8 @@ return { -- Main LSP Configuration
 
                         -- Prompt the user to pick a root
                         vim.ui.select({
-                                util.path.dirname(fname), -- just the file’s folder
+                                -- -- util.path.dirname(fname), -- just the file’s folder
+                                vim.fs.dirname(fname),
                                 current_root, -- whatever lua_ls currently thinks
                                 vim.fn.getcwd(), -- your current working dir
                         }, { prompt = "Pick root for lua_ls:" }, function(choice)
