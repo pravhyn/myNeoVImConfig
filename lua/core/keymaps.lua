@@ -1,6 +1,67 @@
 -- ~/.config/nvim/lua/core/keymaps.lua
 -- tim
 -- to luafile the current file
+
+-- ================================
+-- Duplicate like VS Code (Alt+Shift)
+-- ================================
+
+-- =====================================
+-- Duplicate with Alt+Shift+hjkl (Clean)
+-- =====================================
+
+-- NORMAL MODE
+vim.keymap.set("n", "<A-S-j>", "yyp", { noremap = true, silent = true }) -- down
+vim.keymap.set("n", "<A-S-k>", "yyP", { noremap = true, silent = true }) -- up
+
+-- VISUAL MODE
+vim.keymap.set("v", "<A-S-j>", ":t'>+1<CR>gv", { noremap = true, silent = true })
+vim.keymap.set("v", "<A-S-k>", ":t'<-1<CR>gv", { noremap = true, silent = true })
+
+-- ============================================
+-- Horizontal Duplicate (Alt+Shift+h / l)
+-- Word & Visual Selection with auto-space
+-- ============================================
+
+-- NORMAL MODE: duplicate word under cursor
+
+-- Duplicate to the RIGHT
+vim.keymap.set("n", "<A-S-l>", function()
+        local word = vim.fn.expand("<cword>")
+        if word == "" then
+                return
+        end
+        vim.cmd("normal! e")
+        vim.api.nvim_put({ " " .. word }, "c", true, true)
+end, { noremap = true, silent = true })
+
+-- Duplicate to the LEFT
+vim.keymap.set("n", "<A-S-h>", function()
+        local word = vim.fn.expand("<cword>")
+        if word == "" then
+                return
+        end
+        vim.cmd("normal! b")
+        vim.api.nvim_put({ word .. " " }, "c", false, true)
+end, { noremap = true, silent = true })
+
+-- VISUAL MODE: duplicate exact selection
+
+-- Duplicate selection to the RIGHT
+vim.keymap.set("v", "<A-S-l>", function()
+        local text = table.concat(vim.fn.getregion(vim.fn.getpos("'<"), vim.fn.getpos("'>")), "\n")
+        vim.cmd("normal! `>a ")
+        vim.api.nvim_put({ text }, "c", true, true)
+end, { noremap = true, silent = true })
+
+-- Duplicate selection to the LEFT
+vim.keymap.set("v", "<A-S-h>", function()
+        local text = table.concat(vim.fn.getregion(vim.fn.getpos("'<"), vim.fn.getpos("'>")), "\n")
+        vim.cmd("normal! `<i")
+        vim.api.nvim_put({ text .. " " }, "c", false, true)
+end, { noremap = true, silent = true })
+
+-- source lua file
 vim.keymap.set("n", "<leader>ls", function()
         vim.cmd("luafile " .. vim.fn.expand("%"))
         vim.notify("loaded")
