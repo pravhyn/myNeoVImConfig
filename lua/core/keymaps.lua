@@ -73,6 +73,16 @@ vim.keymap.set("n", "<leader>lss", ":!live-server .<CR>", { desc = "Start live-s
 -- LSP
 vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "LSP Rename" })
 
+-- to read Python docs
+
+vim.keymap.set("n", "<leader>fd", function()
+        Snacks.picker.grep({
+                cwd = vim.fn.expand("~/docs/python-3.14-docs-text"),
+                glob = { "library/**", "reference/**", "tutorial/**" },
+                prompt_title = "Python Docs",
+        })
+end)
+
 -- Noetest keymaps
 local neotest = require("neotest")
 

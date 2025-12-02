@@ -5,6 +5,7 @@ return {
                 ---@module 'obsidian'
                 ---@type obsidian.config
                 opts = {
+                        legacy_commands = false,
                         ui = {
                                 enable = true,
                         },

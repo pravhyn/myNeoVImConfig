@@ -1,6 +1,7 @@
-local three = 3
-local four = 7
+-- Access the notifications history table
+local history = require("snacks").notifications.history()
 
-for i = three, four - 1 do
-        print(i)
+-- Example: print them out
+for _, item in ipairs(history) do
+        print(item.level, item.msg)
 end

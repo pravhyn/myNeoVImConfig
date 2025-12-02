@@ -67,7 +67,9 @@ require("lazy").setup({
         { import = "plugins.autoclose" },
         -- { import = "plugins.tabout" },
         -- { import = "plugins.neogit" },
+        -- decorations
         { import = "plugins.lualine" },
+        { import = "plugins.nvim-colorizer" },
         -- { import = "plugins.lspSignature" },
         { import = "plugins.dev" },
         { import = "plugins.rainbow" },
