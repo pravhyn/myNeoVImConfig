@@ -63,16 +63,28 @@ end, { noremap = true, silent = true })
 
 -- source lua file
 vim.keymap.set("n", "<leader>ls", function()
+        -- checks if buffer is modified, if it is then write it
+        local buf = vim.api.nvim_get_current_buf()
+        local is_modified = vim.api.nvim_get_option_value("modified", { buf = buf })
+
+        if is_modified == true then
+                vim.cmd("w")
+        end
         vim.cmd("luafile " .. vim.fn.expand("%"))
         vim.notify("loaded")
 end, { desc = "Source current Lua file" })
 
--- live liveserver
-vim.keymap.set("n", "<leader>lss", ":!live-server .<CR>", { desc = "Start live-server" })
+-- -- live liveserver
+-- vim.keymap.set("n", "<leader>lss", ":!live-server .<CR>", { desc = "Start live-server" })
 
 -- LSP
 vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "LSP Rename" })
+vim.keymap.set("v", "<leader>la", vim.lsp.buf.code_action, { desc = "LSP Action" })
+-- refractor nvim
 
+vim.keymap.set("v", "<leader>rf", function()
+        require("refactoring").select_refactor()
+end, { desc = "Refactor (select)" })
 -- to read Python docs
 
 vim.keymap.set("n", "<leader>fd", function()
