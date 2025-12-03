@@ -32,14 +32,18 @@ require("lazy").setup({
         -- For Speed
         { import = "plugins.luaSnip" },
 
-        { import = "plugins.vim-visual-multi" },
-
         { import = "plugins.neogen" },
         { import = "plugins.fzf" },
         -- {import = "plugins.inputSnacks"},
         { import = "plugins.lazyGit" },
+        -- Text manipulations
+        { import = "plugins.vim-visual-multi" },
+        { import = "plugins.comment" },
         { import = "plugins.alternate-toggle" },
+        { import = "plugins.autoclose" },
+        { import = "plugins.refractor" },
         -- { import = "plugins.telescope-browser" },
+        { import = "plugins.autoclose" },
         -- { import = "plugins.telescope-fzf-native" },
         { import = "plugins.treesitter" },
         -- Add other plugins...
@@ -55,7 +59,6 @@ require("lazy").setup({
         { import = "plugins.csharplsp" },
         -- For Debuggers
         { import = "plugins.debugger" },
-        { import = "plugins.comment" },
         { import = "plugins.webdevicons" },
         { import = "plugins.rosepinemoon" },
         { import = "plugins.toggleterm" },
@@ -64,7 +67,6 @@ require("lazy").setup({
         -- { import = "plugins.lspSignature" },
         { import = "plugins.dev" },
         { import = "plugins.rainbow" },
-        { import = "plugins.autoclose" },
         -- { import = "plugins.tabout" },
         -- { import = "plugins.neogit" },
         -- decorations
