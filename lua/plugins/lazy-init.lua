@@ -38,10 +38,11 @@ require("lazy").setup({
         { import = "plugins.lazyGit" },
         -- Text manipulations
         { import = "plugins.vim-visual-multi" },
-        { import = "plugins.comment" },
+        -- { import = "plugins.comment" },
         { import = "plugins.alternate-toggle" },
-        { import = "plugins.autoclose" },
+        -- { import = "plugins.autoclose" },
         { import = "plugins.refractor" },
+        -- { import = "plugins.nvim-surround" },
         -- { import = "plugins.telescope-browser" },
         { import = "plugins.autoclose" },
         -- { import = "plugins.telescope-fzf-native" },

@@ -6,6 +6,8 @@ return {
                 end,
         },
 
+        { "nvim-mini/mini.pairs", version = false },
+        { "nvim-mini/mini.comment", version = false },
         {
                 "nvim-mini/mini.surround",
                 version = false,
@@ -31,6 +33,8 @@ return {
                         require("mini.operators").setup({})
                 end,
         },
+        { "nvim-mini/mini.splitjoin", version = false },
+        { "nvim-mini/mini.align", version = false },
         {
                 "nvim-mini/mini.test",
                 version = false,

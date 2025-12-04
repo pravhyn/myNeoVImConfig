@@ -56,5 +56,5 @@ require("core.buffers") -- Needs to support multiple buffer deletion; ugh this i
 require("core.quickSwitcher")
 require("core.fileRunner")
 require("core.commandLine")
-require("core.comment")
 require("core.move_or_resize")
+require("core.comment")

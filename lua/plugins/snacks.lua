@@ -8,11 +8,11 @@ return {
                 indent = { enabled = true },
                 input = { enabled = true },
                 quickfile = { enabled = true },
-                statuscolumn = { enabled = false },
+                statuscolumn = { enabled = true },
 
-                words = { enabled = false },
+                words = { enabled = true },
                 rename = { enabled = false },
-                zen = { enabled = false },
+                zen = { enabled = true },
                 dashboard = {
                         enabled = true,
                         sections = {
