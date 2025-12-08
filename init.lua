@@ -29,11 +29,7 @@ require("plugins.lazy-init")
 -- Load LineNumber configurations
 require("utils.line_mode")
 require("utils.comments")
-require("utils.cursorJump")
-
--- Speed PasteLine >>
-require("utils.speedPaste")
-require("utils.stashPeek")
+-- require("utils.cursorJump")
 
 -- For Termux
 require("termux.clipboardFix")
