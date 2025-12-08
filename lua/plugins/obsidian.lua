@@ -11,7 +11,7 @@ return {
                         },
                         workspaces = {
                                 {
-                                        name = "development",
+                                        name = "KnowLedge",
                                         path = "~/Projects/obsidianVaults/Wisdom",
                                 },
                         },
