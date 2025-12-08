@@ -1,5 +1,19 @@
 -- ~/.config/nvim/lua/core/keymaps.lua
 
+-- Obsidian Keymaps
+
+vim.keymap.set("n", "<leader>oc", function()
+        vim.cmd("Obsidian new")
+end, { desc = "Obsidian: Create new note (API)" })
+
+vim.keymap.set("n", "<leader>ob", function()
+        vim.cmd("Obsidian quick_switch")
+end, { desc = "Obsidian: quick_switch" })
+
+vim.keymap.set("n", "<leader>og", function()
+        vim.cmd("Obsidian search")
+end, { desc = "Obsidian:  Search Notes" })
+
 -- better up/down
 vim.keymap.set({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { desc = "Down", expr = true, silent = true })
 vim.keymap.set({ "n", "x" }, "<Down>", "v:count == 0 ? 'gj' : 'j'", { desc = "Down", expr = true, silent = true })
@@ -58,6 +72,7 @@ end, { desc = "Terminal (cwd)" })
 vim.keymap.set("n", "<leader>ft", function()
         Snacks.terminal(nil, { cwd = project_root() })
 end, { desc = "Terminal (Root Dir)" })
+
 vim.keymap.set({ "n", "t" }, "<c-/>", function()
         Snacks.terminal(nil, { cwd = project_root() })
 end, { desc = "Terminal (Root Dir)" })
