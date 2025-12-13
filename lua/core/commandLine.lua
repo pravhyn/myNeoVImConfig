@@ -32,21 +32,24 @@ local function command_line_runner()
         )
 
         layout:mount()
+        local bufnr = temporary_buffer.bufnr
 
         -- close on <Esc>
-        temporary_buffer:map("n", "<Esc>", function()
+        vim.keymap.set("n", "<Esc>", function()
                 temporary_buffer:unmount()
-        end, { noremap = true })
+        end, { noremap = true, buffer = bufnr })
 
-        temporary_buffer:map("n", "q", function()
+        -- close on q
+        vim.keymap.set("n", "q", function()
                 temporary_buffer:unmount()
-        end, { noremap = true })
+        end, { noremap = true, buffer = bufnr })
 
-        temporary_buffer:map("n", "<localleader>rn", function()
+        -- run command under cursor
+        vim.keymap.set("n", "<localleader>rn", function()
                 local current_line = vim.api.nvim_get_current_line()
-                current_line = current_line:gsub("^:", "") -- remove leading colon if present
+                current_line = current_line:gsub("^:", "")
                 vim.cmd(current_line)
-        end, { noremap = true })
+        end, { noremap = true, buffer = bufnr })
 end
 
 -- 🔥KEYMAP
