@@ -76,7 +76,6 @@ require("lazy").setup({
         { import = "plugins.nvim-colorizer" },
         -- { import = "plugins.lspSignature" },
         { import = "plugins.dev" },
-        { import = "plugins.rainbow" },
         { import = "plugins.autoclose" },
         -- { import = "plugins.tabout" },
         { import = "plugins.mini-suite" },
